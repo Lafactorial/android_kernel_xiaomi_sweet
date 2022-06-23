@@ -7398,13 +7398,12 @@ static void update_sw_icl_max(struct smb_charger *chg, int pst)
 					true, is_flash_active(chg) ?
 						SDP_CURRENT_UA :
 						DCP_CURRENT_UA);
-			else {
+			else
 				/* if flash is active force 500mA */
 				vote(chg->usb_icl_votable, USB_PSY_VOTER, true,
 						is_flash_active(chg) ?
 						SDP_CURRENT_UA : SDP_100_MA);
-				vote(chg->usb_icl_votable, SW_ICL_MAX_VOTER, false, 0);
-			}
+			vote(chg->usb_icl_votable, SW_ICL_MAX_VOTER, false, 0);
 		} else if ((chg->typec_mode == POWER_SUPPLY_TYPEC_NONE) && (val.intval == true))
 			vote(chg->usb_icl_votable, SW_ICL_MAX_VOTER, true, SDP_CURRENT_UA);
 		else
@@ -7434,19 +7433,14 @@ static void update_sw_icl_max(struct smb_charger *chg, int pst)
 			gpio_get_value(chg->dc_9v_gpio))
 			vote(chg->usb_icl_votable, GPIO_DCIN_VOTER,
 				true, DCP_CURRENT_UA);
-		else {
+		else
 			/*
 			 * limit ICL to 100mA, the USB driver will
 			 * enumerate to check if this is a SDP and
 			 * appropriately set the current.
 			 */
-			if (!chg->recheck_charger)
-				vote(chg->usb_icl_votable, SW_ICL_MAX_VOTER,
-						true, SDP_100_MA);
-			else
-				vote(chg->usb_icl_votable, SW_ICL_MAX_VOTER,
-						true, FLOAT_CHARGER_UA);
-		}
+			vote(chg->usb_icl_votable, SW_ICL_MAX_VOTER,
+					true, SDP_100_MA);
 		break;
 	case POWER_SUPPLY_TYPE_UNKNOWN:
 	default:
